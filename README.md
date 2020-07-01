@@ -8,7 +8,7 @@ This model is provided as a streamlit based web app which can be found at: TODO 
 To run localy
 ------------
 * Setup a virtualenv using conda or venv running Python 3.6.10
-  `pip3 install -r requirements.txt` 
+* `pip3 install -r requirements.txt` 
 * Make a new directory and copy/clone src folder
 * In the src directory run
 `streamlit run protolith_app.py`
