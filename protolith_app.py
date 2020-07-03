@@ -1,5 +1,5 @@
-from models.predict_model import predict
-from models.dataHelperFunctions import skip_headder, select_transform_majors
+from src.models.predict_model import predict
+from src.models.dataHelperFunctions import skip_headder, select_transform_majors
 import streamlit as st
 import numpy as np
 import pandas as pd
@@ -8,7 +8,7 @@ from pathlib import Path
 import base64
 
 # load trained model pipeline
-model = joblib.load(Path('models/Model50_15_full_2020-52-03-13-52.z'))
+model = joblib.load(Path('src/models/Model50_15_full_2020-52-03-13-52.z'))
 
 def get_table_download_link(df):
     """Generates a link allowing the data in a given pandas dataframe to be downloaded
@@ -24,7 +24,7 @@ def run():
 
     st.title("Rock Protolith Prediction App")
     from PIL import Image
-    image = Image.open(Path('images/DSCN6550.JPG'))
+    image = Image.open(Path('src/images/DSCN6550.JPG'))
 
     st.image(image,use_column_width= True)
    
