@@ -8,7 +8,7 @@ from pathlib import Path
 import base64
 
 # load trained model pipeline
-model = joblib.load(Path('models/brf_clf_tuned_cal_pipe_20200611_joblib.z'))
+model = joblib.load(Path('models/Model50_15_full_2020-52-03-13-52.z'))
 
 def get_table_download_link(df):
     """Generates a link allowing the data in a given pandas dataframe to be downloaded
