@@ -1,9 +1,11 @@
 import numpy as np
 import pandas as pd
+import joblib
+from pathlib import Path
 
 pd.set_option('precision', 3)
 
-def predict(model,input_df):
+def predict(input_df):
     """
     Function to predict results from trained protolith classifier model.
     Inputs:
@@ -12,6 +14,9 @@ def predict(model,input_df):
     Returns:
         Pandas df containing prediceted class and probablility
     """
+    # load trained model pipeline
+    model = joblib.load(Path('src/models/Model50_15_full_2020-52-03-13-52.z'))
+
     _class = pd.DataFrame(model.predict(input_df))
     _prob = pd.DataFrame(model.predict_proba(input_df))
     predictions = pd.concat([_class, _prob], axis=1)

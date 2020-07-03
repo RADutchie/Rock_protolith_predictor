@@ -8,7 +8,7 @@ from pathlib import Path
 import base64
 
 # load trained model pipeline
-model = joblib.load(Path('src/models/Model50_15_full_2020-52-03-13-52.z'))
+#model = joblib.load(Path('src/models/Model50_15_full_2020-52-03-13-52.z'))
 
 def get_table_download_link(df):
     """Generates a link allowing the data in a given pandas dataframe to be downloaded
@@ -61,7 +61,7 @@ def run():
         input_df = pd.DataFrame([input_dict])
 
         if st.button('Predict'):
-            output_df = predict(model, input_df)
+            output_df = predict(input_df)
             output = output_df.iloc[0,:].values.tolist()
             st.success(f'Your sample is {output[1]*100:.2f}% likely to be {output[0]}')
             
@@ -74,7 +74,7 @@ def run():
             
             #TODO extend to include xlxs file input. normalise to 100% anhydrous. recalc Fe2O3
 
-            batch_predict = predict(model, data)
+            batch_predict = predict(data)
 
             idx = data.index.to_series(name= 'SampleID')
             idx.reset_index(drop=True, inplace=True)
