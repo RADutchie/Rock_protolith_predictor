@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+
+    <title>Protolith App bootstrap frontend</title>
+  </head>
+  
+  <style>
+    .content {
+      max-width: 960px;
+      margin: auto;
+    }
+  </style>
+
+  <body>
+    <div class="container">
+      <div class="jumbotron text-center">
+        <h1>Rock Protolith Prediction App</h1>
+        <img class="img-rounded" src="{{url_for('static',filename='DSCN6550.JPG')}}" alt='Migmatitic gneiss' style="width:80%" />
+        <p>This app tries to predict a rocks protolith from major element geochemistry using an algorithm trained on over half a million labeled global geochemical data.
+          When you input you major element data, the model will try to predict if your sample is either igneous or sedimentary.
+        </p>
+      </div>
+    </div>
+    
+    <div class="container">
+      <h2>How to use</h2>
+      <p>You can either enter a single sample via an online form or upload a csv file containing multiple samples. 
+      Data should be in weight% oxides and must contain the below elements.</p>
+      <p>Example minimum data required in input csv, including sample identifier in column 1 and header row. 
+        Currently all Fe must be provided as total FeO</p>
+    </div>
+
+    <div class="container">
+      <table class="table table-condensed table-responsive">
+        <tr>
+          <th>SampleID</th>
+          <th>SiO<sub>2</sub></th>
+          <th>TiO<sub>2</sub></th>
+          <th>Al<sub>2</sub>O<sub>3</sub></th>
+          <th>FeOT</th>
+          <th>MgO</th>
+          <th>CaO</th>
+          <th>Na<sub>2</sub>O</th>
+          <th>K<sub>2</sub>O</th>
+          <th>P<sub>2</sub>O<sub>5</sub></th>
+        </tr>
+        <tr>
+          <td>873827</td>
+          <td>73.43</td>
+          <td>0.41</td>
+          <td>14.48</td>
+          <td>0.55</td>
+          <td>0.44</td>
+          <td>1.72</td>
+          <td>3.24</td>
+          <td>5.58</td>
+          <td>0.12</td>
+        </tr>
+      </table>
+    </div>
+
+    <!--TODO add forms for single sample entry, then add load form for csv.-->
+  <div class="container" id="sp">
+    <h3>Single sample prediction</h3>
+    <form class="form-horizontal" action="{{url_for('single_predict', _anchor='sp')}}"method="POST">
+      <div class="form-group">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-4">
+              <label class="control-label" for="SiO2">SiO<sub>2</sub></label>
+              <input type="number" step="any" name="SiO2" id="SiO2" required="required" placeholder="63.17">
+            </div>
+            <div class="col-md-4">
+              <label class="control-label" for="TiO2">TiO<sub>2</sub></label>
+              <input type="number" step="any" name="TiO2" id="TiO2" required="required" placeholder="0.52">
+            </div>
+            <div class="col-md-4">
+              <label class="control-label" for="Al2O3">Al<sub>2</sub>O<sub>3</sub></label>
+              <input type="number" step="any" name="Al2O3" id="Al2O3" required="required" placeholder="13.85">  
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+              <label class="control-label" for="FeOT">FeOT</label>
+              <input type="number" step="any" name="FeOT" id="FeOT" required="required" placeholder="7.11">
+            </div>
+            <div class="col-md-4">
+              <label class="control-label" for="MgO">MgO</label>
+              <input type="number" step="any" name="MgO" id="MgO" required="required" placeholder="6.78">
+            </div>
+            <div class="col-md-4">
+              <label class="control-label" for="CaO">CaO</label>
+              <input type="number" step="any" name="CaO" id="CaO" required="required" placeholder="3.05"> 
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+              <label class="control-label" for="Na2O">Na<sub>2</sub>O</label>
+              <input type="number" step="any" name="Na2O" id="Na2O" required="required" placeholder="1.65">
+            </div>
+            <div class="col-md-4">
+              <label class="control-label" for="K2O">K<sub>2</sub>O</label>
+              <input type="number" step="any" name="K2O" id="K2O" required="required" placeholder="3.68">
+            </div>
+            <div class="col-md-4">
+              <label class="control-label" for="P2O5">P<sub>2</sub>O<sub>5</sub></label>
+              <input type="number" step="any" name="P2O5" id="P2O5" required="required" placeholder="0.14">
+            </div>
+          </div>
+        </div>         
+      </div>
+      <button type="submit" class="btn btn-primary btn btn-lg">Predict sample</button>
+    </form>
+    <br>
+  </div>
+
+  <div class=container>
+    {{prediction|safe}}
+  </div>
+
+  <br>
+
+  <div class="container">
+    <h3>Batch prediction</h3>
+    <form action="{{url_for('batch_predict', _anchor='bp')}}" method="POST" enctype="multipart/form-data">
+      <div class="form-group has-success has-feedback">
+        <label for="file">Select a csv file:</label>
+        <input type="file" id="file" name="file"><br>
+      </div>
+      <input type="submit" value="Batch prediction" class="btn btn-primary btn btn-lg">
+    </form>
+    <br>
+    
+    <div class="container" id="bp">
+      {{download|safe}}
+      {{tables|safe}}
+    </div>
+  </div>
+  <br>
+  <div class="container">
+    <a href="/" class="btn btn-danger">Reset app</a>
+  </div>
+
+    
+  <div class="container">
+    <hr>
+    <h3>Contact, references and source code</h3>
+    <p>Contact me @RADutchie on twitter or GitHub for comments or issues</p>
+    <p><a href="https://github.com/RADutchie/Rock_protolith_predictor">https://github.com/RADutchie/Rock_protolith_predictor</a> for model and source code</p>
+    <p>This predictor is a reformulation of the original work published by Hasterok et al 2019. 
+      <i>Chemical identification of metamorphic protoliths using machine learning methods</i>. Computers and Geosciences. <b>132</b>, 56-68</p>
+    <br>
+    <br>
+    <br>
+  </div>
+
+
+    
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>  
+  </body>
+</html>

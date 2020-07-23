@@ -26,12 +26,12 @@ def skip_headder(input_file,**kwargs):
         
     return pd.read_csv(f, index_col= 0, **kwargs) 
 
-
 def rename_FeO(col):
     if re.match(r'^feo(.*?)$', col):
         return 'feot'
     else:
         return col
+
 
 def select_transform_majors(df):
     """

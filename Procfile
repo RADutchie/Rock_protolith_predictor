@@ -1,1 +1,1 @@
-web: sh setup.sh && streamlit run protolith_app.py
+web: gunicorn wsgi:app
