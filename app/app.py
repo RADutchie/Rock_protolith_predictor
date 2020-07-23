@@ -1,6 +1,6 @@
 from flask import Flask, request, url_for, render_template
-from model.predict_model import predict
-from model.dataHelperFunctions import skip_headder, select_transform_majors
+from app.model.predict_model import predict
+from app.model.dataHelperFunctions import skip_headder, select_transform_majors
 import numpy as np
 import pandas as pd
 from io import TextIOWrapper
