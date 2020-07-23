@@ -10,7 +10,7 @@ import base64
 
 app = Flask(__name__, template_folder='templates')
 
-model = load(Path('model/Model50_15_full_2020-52-03-13-52.z'))
+model = load(Path('app/model/Model50_15_full_2020-52-03-13-52.z'))
 
 cols = ['sio2', 'tio2', 'al2o3', 'feo_tot', 'mgo', 'cao', 'na2o', 'k2o', 'p2o5']
 
