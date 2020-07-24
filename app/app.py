@@ -1,6 +1,6 @@
 from flask import Flask, request, url_for, render_template
-from app.model.predict_model import predict
-from app.model.dataHelperFunctions import skip_headder, select_transform_majors
+from model.predict_model import predict
+from model.dataHelperFunctions import skip_headder, select_transform_majors
 import numpy as np
 import pandas as pd
 from io import TextIOWrapper
@@ -10,7 +10,7 @@ import base64
 
 app = Flask(__name__, template_folder='templates')
 
-model = load(Path('app/model/Model50_15_full_2020-52-03-13-52.z'))
+model = load(Path('model/Model50_15_full_2020-52-03-13-52.z'))
 
 cols = ['sio2', 'tio2', 'al2o3', 'feo_tot', 'mgo', 'cao', 'na2o', 'k2o', 'p2o5']
 
@@ -59,5 +59,5 @@ def batch_predict():
     download = get_table_download_link(out_df)
     return render_template('index.html',download=download, tables=out_df.to_html(classes=['data','table-striped'], header=True, index=False,border=None))
 
-#if __name__== '__main__':
-    #app.run(debug=True)
+if __name__== '__main__':
+    app.run()

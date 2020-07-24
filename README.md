@@ -13,6 +13,12 @@ To run locally
 * In the app directory run
 `flask run`
 
+Or with Docker 
+* In app folder run
+* `docker build -t protolith-app .`
+* `docker run -dp 8000:8000 protolith-app`
+* The app will then be available via web browser at localhost:8000  
+
 Attribution and training data
 ------------
 This predictor is a reformulation of the original work published by Hasterok et al 2019. 
