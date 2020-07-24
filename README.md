@@ -3,7 +3,7 @@ Rock protolith prediction app
 
 ML model trained to predict if a rock is igneous or sedimentary based on major element geochemistry.
 
-This model is provided as a web app which can be found at: TODO add link
+This model is provided as a web app which can be found at: http://protolithappeb-env.eba-zemajppw.ap-southeast-2.elasticbeanstalk.com/
 
 To run locally
 ------------
@@ -30,10 +30,9 @@ Project Organization
 ------------
 
     ├── README.md          
-    ├── Procfile           
-    ├── requirements.txt   
     └── app               
-        ├── templates           
+        ├── requirements.txt   
+        ├── templates           
         │   └── index.html
         ├── static           
         ├── model         <- App helper functions and final trained model
@@ -41,6 +40,8 @@ Project Organization
         │   ├── dataHelperFunctions.py 
         |   ├── predict_model.py
         │   └── model
+        ├── Dockerfile
+        ├── wsgi.py <- Gunicorn wsgi server
         └── app.py  <- Flask protolith predictor app script
            
     
