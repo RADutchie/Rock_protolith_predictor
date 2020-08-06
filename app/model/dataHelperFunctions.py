@@ -32,6 +32,66 @@ def rename_FeO(col):
     else:
         return col
 
+def renormalise(df: pd.DataFrame):
+    """
+    Renormalises compositional data to ensure closure.
+
+    Parameters
+    ------------
+    df : :class:`pandas.DataFrame`
+        Dataframe to renomalise.
+    Returns
+    --------
+    :class:`pandas.DataFrame`
+        Renormalized dataframe.
+    """
+    dfc = df.copy(deep=True)
+    dfc = dfc.divide(dfc.sum(axis=1).replace(0, 100.0), axis=0) * 100.0
+    return dfc
+
+def Fe2O3_variants(df):
+    """
+    Function to search column index to find Fe2O3 naming variants
+
+    Parameters
+    ---------
+    cols : df.columns :class:`pandas.Dataframe`
+    
+    Returns
+    ---------
+    str : matched regex search for Fe2O3 variants
+    """        
+    for x in list(df.columns):
+        match = re.match(r'^fe2o3(.*?)$', x)
+        if match is not None:
+            return match.group(0)
+
+def convert_to_FeO(df: pd.DataFrame):
+    """
+    Converts Fe2O3 total or combination of FeO and Fe2O3 to all FeO total 
+    and drops original values from df
+
+    Parameters
+    -------------
+    df : :class:`pandas.DataFrame`
+    Returns
+    -------------
+    df : :class:`pandas.DataFrame`
+        dataframe with Fe converted to FeO total and original Fe cols removed
+    """    
+    match = Fe2O3_variants(df) #call function to get Fe2O3 naming variants
+    
+    if 'feo' in df.columns and 'fe2o3' in df.columns:
+        df.fillna({'feo':0.0, 'fe2o3':0.0}, inplace=True)
+        df['feototal'] = df['fe2o3']*0.899 + df['feo']
+        return df.drop(['fe2o3','feo'], axis=1)
+
+    elif 'feo' not in df.columns and match in df.columns:
+        df['feototal'] = df[match]*0.899
+        return df.drop([match], axis=1)
+    
+    else:
+        return df    
 
 def select_transform_majors(df):
     """
@@ -46,9 +106,13 @@ def select_transform_majors(df):
     df: pandas.DataFrame
     """
     df.columns = map(str.lower, df.columns) #lowercase column names
+    
+    df = convert_to_FeO(df)
       
     df = df.rename(columns=rename_FeO)
 
     df = df[['sio2', 'tio2', 'al2o3', 'feot', 'mgo', 'cao', 'na2o', 'k2o', 'p2o5']] # select required elements
 
-    return df.apply(lambda x: pd.to_numeric(x, errors='coerce')).dropna() # convert non numeric to Nan and drop rows with missing values
+    df = df.apply(lambda x: pd.to_numeric(x, errors='coerce')).dropna() # convert non numeric to Nan and drop rows with missing values
+
+    return renormalise(df)
