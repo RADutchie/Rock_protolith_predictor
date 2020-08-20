@@ -29,7 +29,10 @@ The source data for training can be found at: https://zenodo.org/record/2586461#
 Project Organization
 ------------
 
-    ├── README.md          
+    ├── README.md 
+    ├── notebooks
+    │   ├── model_assessment.ipynb      
+    │   └── train_protolith_model.ipynb
     └── app               
         ├── requirements.txt   
         ├── templates           
