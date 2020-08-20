@@ -1,5 +1,6 @@
 import re
 import pandas as pd
+import numpy as np
 
 
 def skip_headder(input_file,**kwargs):
@@ -27,6 +28,9 @@ def skip_headder(input_file,**kwargs):
     return pd.read_csv(f, index_col= 0, **kwargs) 
 
 def rename_FeO(col):
+    """
+    Function to find variations of the FeO column headder and convert to 'feot'
+    """
     if re.match(r'^feo(.*?)$', col):
         return 'feot'
     else:
@@ -40,6 +44,7 @@ def renormalise(df: pd.DataFrame):
     ------------
     df : :class:`pandas.DataFrame`
         Dataframe to renomalise.
+    
     Returns
     --------
     :class:`pandas.DataFrame`
@@ -74,6 +79,7 @@ def convert_to_FeO(df: pd.DataFrame):
     Parameters
     -------------
     df : :class:`pandas.DataFrame`
+    
     Returns
     -------------
     df : :class:`pandas.DataFrame`
@@ -116,3 +122,4 @@ def select_transform_majors(df):
     df = df.apply(lambda x: pd.to_numeric(x, errors='coerce')).dropna() # convert non numeric to Nan and drop rows with missing values
 
     return renormalise(df)
+

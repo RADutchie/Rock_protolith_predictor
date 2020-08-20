@@ -1,17 +1,20 @@
 import numpy as np
 import pandas as pd
 
-
 pd.set_option('precision', 3)
 
 def predict(model, input_df):
     """
     Function to predict results from trained protolith classifier model.
-    Inputs:
-        model = trained classifier model pipeline
-        input_df = pandas dataframe with 9 element major chemistry data in Atchison symplex
+    
+    Parameters:
+    -------------------
+    model: trained classifier model pipeline
+    input_df: pandas.DataFrame with 9 element major chemistry data in Atchison symplex
+    
     Returns:
-        Pandas df containing prediceted class and probability
+    ------------------
+    pandas.DataFrame containing predicted class and probability
     """
     _class = pd.DataFrame(model.predict(input_df))
     _prob = pd.DataFrame(model.predict_proba(input_df))
@@ -25,11 +28,15 @@ def get_output_df(data, predictions):
     """
     Function to take transformed input data and resultant predictions from 
     model and generate formatted out put DataFrame.
-    Inputs:
-        data = transformed major element data 
-        predictions = output from predict function
+    
+    Parameters:
+    --------------
+    data: pandas.DataFrame transformed major element data 
+    predictions: pandas.DataFrame output from predict function
+    
     Returns:
-        Pandas df with input data and generated predictions.
+    --------------
+    pandas.DataFrame with input data and generated predictions.
     """
     idx = data.index.to_series(name= 'SampleID')
     idx.reset_index(drop=True, inplace=True)

@@ -1,8 +1,9 @@
 base58==2.0.1
 imbalanced-learn==0.7.0
 joblib==0.15.1
-numpy==1.18.5
+numpy==1.19.1
 pandas==1.0.5
 scikit-learn==0.23.1
 flask==1.1.2
 gunicorn
+matplotlib==3.2.2

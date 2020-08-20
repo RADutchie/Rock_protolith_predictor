@@ -11,7 +11,7 @@ To run locally
 * `pip3 install -r requirements.txt` 
 * Make a new directory and copy/clone app folder
 * In the app directory run
-`flask run`
+`flask run` (may need to move the wsgi.py file out of app folder)
 
 Or with Docker 
 * In app folder run

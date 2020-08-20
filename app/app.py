@@ -1,6 +1,7 @@
 from flask import Flask, request, url_for, render_template
 from model.predict_model import predict, get_output_df
 from model.dataHelperFunctions import skip_headder, select_transform_majors, renormalise
+from model.predict_lithology import classify_lithology
 import numpy as np
 import pandas as pd
 from io import TextIOWrapper
@@ -14,6 +15,7 @@ model = load(Path('model/Model50_15_full_2020-52-03-13-52.z'))
 
 cols = ['sio2', 'tio2', 'al2o3', 'feo', 'fe2o3', 'mgo', 'cao', 'na2o', 'k2o', 'p2o5']
 model_cols = ['sio2', 'tio2', 'al2o3', 'feot', 'mgo', 'cao', 'na2o', 'k2o', 'p2o5']
+out_cols = {'sio2':'SiO2', 'tio2':'TiO2', 'al2o3':'Al2O3', 'feot':'FeOT', 'mgo':'MgO', 'cao': 'CaO', 'na2o':'Na2O', 'k2o': 'K2O', 'p2o5': 'P2O5'}
 
 def get_table_download_link(df):
     """Generates a link allowing the data in a given pandas dataframe to be downloaded
@@ -36,10 +38,14 @@ def single_predict():
     df = pd.DataFrame([final], columns= cols)
     df['feot'] = df['fe2o3']*0.899 + df['feo']
     input_df = renormalise(df[model_cols])
-    output_df = predict(model, input_df)
+    predict_df = predict(model, input_df)
+    litho_input = pd.concat([input_df.rename(columns=out_cols), predict_df],axis=1)
+    output_df = classify_lithology(litho_input)
     output = output_df.iloc[0,:].values.tolist()
+    print(output)
     return render_template('index.html', prediction = f'''<div class="alert alert-success">
-                                                        Your sample is <strong>{output[1]*100:.2f}% likely to be {output[0]}</strong>
+                                                        Your sample is <strong>{output[-2]*100:.2f}% likely to be {output[-3]}</strong> 
+                                                        and classified as a <strong>{output[-1]}</strong>
                                                         </div>''')
 
 @app.route('/batch_predict', methods=['POST'])
@@ -60,7 +66,8 @@ def batch_predict():
     #TODO extend to include xlxs file input. 
 
     batch_predict = predict(model, data)
-    out_df = get_output_df(data, batch_predict)
+    lith_df = get_output_df(data, batch_predict)
+    out_df = classify_lithology(lith_df)
     download = get_table_download_link(out_df)
     return render_template('index.html',download=download, tables=out_df.to_html(classes=['data','table-striped'], header=True, index=False,border=None))
 

@@ -7,9 +7,11 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-    b4
-
+  
     <title>Protolith App</title>
+    <meta name="author" content="Rian Dutch">
+    <meta name="description" content="machine learning application to predict rock type from major element geochemistry">
+    <meta name="keywords" content="geology rock lithology geochemistry machine learning">
   </head>
   
   <style>
@@ -24,8 +26,12 @@
       <div class="jumbotron text-center">
         <h1>Rock Protolith Prediction App</h1>
         <img class="img-rounded" src="{{url_for('static',filename='DSCN6550.JPG')}}" alt='Migmatitic gneiss' style="width:80%" />
-        <p>This app tries to predict a rocks protolith from major element geochemistry using an algorithm trained on over half a million labeled global geochemical data.
+        <br>
+        <p>This app tries to predict a rocks protolith from major element geochemistry, using an algorithm trained on over half a million labeled global geochemical data.
           When you input your major element data, the model will try to predict if your sample is either igneous or sedimentary.
+        </p>
+        <p>The rock will then be classified into a lithology based on the protolith prediction, using either the TAS igneous classification (Middlemost, 1994) or the 
+          SandClass sedimentary classification after Herron (1988)
         </p>
       </div>
     </div>
@@ -33,7 +39,7 @@
     <div class="container">
       <h2>How to use</h2>
       <p>You can either enter a single sample via an online form or upload a csv file containing multiple samples. 
-      Data should be in weight% oxides and must contain the below elements.</p>
+      Data should be in weight% oxides and must contain the below elements, even as 0% if they are missing.</p>
       <p>Example minimum data required in input csv, including sample identifier in column 1 and header row. 
         You must include either one of FeO or Fe<sub>2</sub>O<sub>3</sub>, or both. All Fe will be converted to FeO</p>
     </div>
@@ -154,12 +160,23 @@
   </div>
   <br>
   <div class="container">
-    <a href="/" class="btn btn-danger">Reset app</a>
+    <a href="/" class="btn btn-danger">Click to reset app</a>
   </div>
 
     
   <div class="container">
     <hr>
+    <h3>Caveats</h3>
+    <p>
+      This predictor is a trained balanced random forrest model based on major element geochemistry. 
+      Because of the chemical similarity between some rock types (such as felsic igneous rocks and arkosic sediments)
+      there will always be the potential for misclassifications. The model performs better on some compositions than others.
+      The classified lithology is also based on major element geochemistry and not mineralogy and is therefore subject to 
+      all the limitations associated with chemical classification of rocks, particularly sediments. 
+    </p>
+    <p>
+      To asses the quality of the model please visit the GitHub repo and view the model_assessment notebook. 
+    </p>
     <h3>Contact, references and source code</h3>
     <p>Contact me @RADutchie on twitter or GitHub for comments or issues</p>
     <p><a href="https://github.com/RADutchie/Rock_protolith_predictor">https://github.com/RADutchie/Rock_protolith_predictor</a> for model and source code</p>
