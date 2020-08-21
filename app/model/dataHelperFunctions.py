@@ -40,6 +40,8 @@ def renormalise(df: pd.DataFrame):
     """
     Renormalises compositional data to ensure closure.
 
+    A big thanks to the pyrolite library for this source code: https://github.com/morganjwilliams/pyrolite
+
     Parameters
     ------------
     df : :class:`pandas.DataFrame`
@@ -75,6 +77,8 @@ def convert_to_FeO(df: pd.DataFrame):
     """
     Converts Fe2O3 total or combination of FeO and Fe2O3 to all FeO total 
     and drops original values from df
+
+    A big thanks to the pyrolite library for how to make this work: https://github.com/morganjwilliams/pyrolite
 
     Parameters
     -------------

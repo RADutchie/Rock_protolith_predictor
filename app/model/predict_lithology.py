@@ -30,6 +30,9 @@ def litho_classification_cols(df):
 def predict_lithology(model, df, cols):
     """
     Function to assign a lithology classifier based on an extended TAS classification for igneous rocks.
+
+    A big thanks to the pyrolite library for this source code: https://github.com/morganjwilliams/pyrolite 
+    
     Parameters:
     --------------
     model: deterministic model fields
