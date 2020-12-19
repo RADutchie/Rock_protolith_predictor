@@ -1,6 +1,17 @@
 <!doctype html>
 <html lang="en">
   <head>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-JT72SSTZFW"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JT72SSTZFW');
+    </script>
+    
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -168,7 +179,7 @@
     <hr>
     <h3>Caveats</h3>
     <p>
-      This predictor is a trained balanced random forrest model based on major element geochemistry. 
+      This predictor is a trained balanced random forest model based on major element geochemistry. 
       Because of the chemical similarity between some rock types (such as felsic igneous rocks and arkosic sediments)
       there will always be the potential for misclassifications. The model performs better on some compositions than others.
       The classified lithology is also based on major element geochemistry and not mineralogy and is therefore subject to 
