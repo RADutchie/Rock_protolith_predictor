@@ -3,7 +3,9 @@ Rock protolith prediction app
 
 ML model trained to predict if a rock is igneous or sedimentary based on major element geochemistry.
 
-This model is provided as a web app which can be found at: http://protolith-app.ap-southeast-2.elasticbeanstalk.com/
+This model is provided as a web app which can be found at: http://protolith-app.s3-website-ap-southeast-2.amazonaws.com/
+
+See also the modified serverless version of this app [here]{https://github.com/RADutchie/Rock-protolith-predictor-serverless}
 
 To run locally
 ------------
