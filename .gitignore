@@ -88,6 +88,7 @@ target/
 /model trials
 /streamlit_app
 *.zip
+/app_redirect
 
 # Mac OS-specific storage files
 .DS_Store
