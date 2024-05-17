@@ -1,6 +1,6 @@
 base58==2.0.1
 imbalanced-learn==0.7.0
-joblib==0.15.1
+joblib==1.2.0
 numpy==1.19.1
 pandas==1.0.5
 scikit-learn==0.23.1
